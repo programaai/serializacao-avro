@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'com.commercehub.gradle.plugin.avro' version '0.9.1'
+}
+
+group = "br.com.programai"
+version = "1.0.0-SNAPSHOT"
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    jcenter()
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.apache.avro:avro:1.9.1'
+
+    testCompile 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+            'Main-Class': 'br.com.programaai.avro.Application'
+        )
+    }
+}
+
+avro {
+    stringType = "CharSequence"
+    fieldVisibility = "PRIVATE"
+}

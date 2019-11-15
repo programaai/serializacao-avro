@@ -1,0 +1,57 @@
+{
+  "type": "record",
+  "namespace": "br.com.programaai.loja",
+  "name": "Pedido",
+  "doc": "Um pedido feito pela loja, com a lista de produtos e método de entrega",
+  "fields": [
+    {"name": "codigo_pedido", "type": "long"},
+    {"name": "data_pedido", "type": "long"},
+    {
+      "name": "tipo_entrega",
+      "type": {
+        "type": "enum",
+        "namespace": "br.com.programaai.loja",
+        "name": "TipoEntrega",
+        "doc": "O tipo de entrega escolhido pelo cliente para o pedido",
+        "symbols": ["FISICO", "DIGITAL"]
+      }
+    },
+    {"name": "email_cliente", "type": ["null", "string"]},
+    {
+      "name": "endereco_entrega",
+      "type": ["null", {
+        "type": "record",
+        "namespace": "br.com.programaai.loja",
+        "name": "Endereco",
+        "fields": [
+          {"name": "logradouro", "type": "string"},
+          {"name": "bairro", "type": ["null", "string"]},
+          {"name": "cidade", "type": "string"},
+          {"name": "estado", "type": "string"},
+          {"name": "CEP", "type": "string"},
+          {"name": "telefone", "type": "string"}
+        ]
+      }]
+    },
+    {
+      "name": "produtos",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "namespace": "br.com.programaai.loja",
+          "name": "ProdutoResumo",
+          "fields": [
+            {"name": "codigo", "type": "long"},
+            {"name": "nome", "type": "string"},
+            {
+              "name": "preco", 
+              "type": "string"
+            },
+            {"name": "descricao", "type": ["null", "string"]}
+          ]
+        }
+      }
+    }
+  ]
+}
