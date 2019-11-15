@@ -15,8 +15,8 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    implementation 'org.slf4j:slf4j-api:1.7.25'
-    implementation 'org.apache.avro:avro:1.9.1'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.apache.avro:avro:1.9.1'
 
     testCompile 'junit:junit:4.12'
 }
@@ -24,11 +24,17 @@ dependencies {
 jar {
     manifest {
         attributes(
-            'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+            'Class-Path': configurations.compile.collect { 'lib/' + it.getName() }.join(' '),
             'Main-Class': 'br.com.programaai.avro.Application'
         )
     }
 }
+
+task copyToLib(type: Copy) {
+    into "${buildDir}/libs/lib"
+    from configurations.runtime
+}
+build.dependsOn(copyToLib)
 
 avro {
     stringType = "CharSequence"

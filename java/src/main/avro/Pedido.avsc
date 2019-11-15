@@ -16,16 +16,17 @@
         "symbols": ["FISICO", "DIGITAL"]
       }
     },
-    {"name": "email_cliente", "type": ["null", "string"]},
+    {"name": "email_cliente", "type": ["null", "string"], "default": null},
     {
       "name": "endereco_entrega",
+      "default": null,
       "type": ["null", {
         "type": "record",
         "namespace": "br.com.programaai.loja",
         "name": "Endereco",
         "fields": [
           {"name": "logradouro", "type": "string"},
-          {"name": "bairro", "type": ["null", "string"]},
+          {"name": "bairro", "type": ["null", "string"], "default":  null},
           {"name": "cidade", "type": "string"},
           {"name": "estado", "type": "string"},
           {"name": "CEP", "type": "string"},
@@ -48,7 +49,7 @@
               "name": "preco", 
               "type": "string"
             },
-            {"name": "descricao", "type": ["null", "string"]}
+            {"name": "descricao", "type": ["null", "string"], "default": null}
           ]
         }
       }
