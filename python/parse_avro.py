@@ -15,7 +15,7 @@ def t(*dt):
     return int(mktime(datetime.datetime(*dt).timetuple()))
 
 
-ORDERS = [
+PEDIDOS = [
     {
         "codigo_pedido": 1, "data_pedido": t(2019, 10, 2),
         "tipo_entrega": "FISICO", "email_cliente": None,
@@ -44,20 +44,19 @@ ORDERS = [
                 "preco": "199,99", "descricao": None}
         ]
     },
-]
-ORDERS = ORDERS * 10_000
+] * 10_000
 
 
 def write_orders(out_filename):
     schema = parse_schema('pedido')
     t0 = time()
     with DataFileWriter(open(out_filename, "wb"), DatumWriter(), schema, codec='deflate') as writer:
-        for order in ORDERS:
+        for order in PEDIDOS:
             writer.append(order)
     delta = time() - t0
-    print("{} registros escritos em {:0.3f}s".format(len(ORDERS), delta))
+    print("{} registros escritos em {:0.3f}s".format(len(PEDIDOS), delta))
     with open(out_filename.replace(".avro", ".json"), "w") as f:
-        json.dump(ORDERS, f, separators=(',', ':'))
+        json.dump(PEDIDOS, f, separators=(',', ':'))
 
 
 def read_orders(in_filename):
