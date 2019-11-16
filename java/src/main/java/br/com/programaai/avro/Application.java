@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.avro.file.CodecFactory;
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumReader;
@@ -110,12 +111,15 @@ public class Application {
   private static void writeOrders(String outFilename) throws IOException {
     DatumWriter<Pedido> datumWriter = new SpecificDatumWriter<>(Pedido.class);
 
+    long t0 = System.nanoTime();
     try(DataFileWriter<Pedido> dataFileWriter = new DataFileWriter<>(datumWriter)) {
+      dataFileWriter.setCodec(CodecFactory.deflateCodec(9));
       dataFileWriter.create(Pedido.SCHEMA$, new File(outFilename));
       for (Pedido pedido : PEDIDOS) {
         dataFileWriter.append(pedido);
       }
     }
+    print("%d registros escritos em %.8fms", PEDIDOS.size(), delta(t0) * 1e-6);
   }
 
   /* FUNCOES UTILITARIAS */
